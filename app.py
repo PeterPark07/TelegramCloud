@@ -33,7 +33,7 @@ def help_command(message):
     bot.reply_to(message, response_text)
 
 # Handler for document messages
-@bot.message_handler(content_types=['document'])
+@bot.message_handler(content_types='document')
 def handle_document(message):
     document = message.document
 
