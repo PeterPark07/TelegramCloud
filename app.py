@@ -29,3 +29,10 @@ def help_command(message):
     response_text += "/start - Start the bot.\n"
     response_text += "/help - Show this help message.\n"
     bot.reply_to(message, response_text)
+
+# Handler for when a file is sent
+@bot.message_handler(content_types=['document', 'photo', 'video', 'audio'])
+def handle_file(message):
+    file_type = message.content_type.split('/')[0]  # Extracting the type of file
+    response_text = f"Received a {file_type} file!"
+    bot.reply_to(message, response_text)
