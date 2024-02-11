@@ -5,9 +5,6 @@ import time
 
 app = Flask(__name__)
 bot = telebot.TeleBot(os.getenv('bot'), threaded=False)
-bot.remove_webhook()
-time.sleep(1)
-bot.set_webhook(url=os.getenv('url') + "/bot")
 
 # Bot route to handle incoming messages
 @app.route('/bot', methods=['POST'])
