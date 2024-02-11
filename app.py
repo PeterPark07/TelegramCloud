@@ -34,7 +34,7 @@ def help_command(message):
 # Handler for when a file is sent
 @bot.message_handler(content_types=['document', 'photo', 'video', 'audio'])
 def handle_file(message):
-    file_type = message.content_type.split('/')[0]  # Extracting the type of file
+    file_type = message.content_type # Extracting the type of file
     response_text = f"Received a {file_type} file!"
     bot.reply_to(message, response_text)
 
