@@ -86,7 +86,7 @@ def handle_all_files(message):
         if all_files:
             response_text = "All files:\n\n"
             for file_entry in all_files:
-                random_number = file_entry.get("unique_identifier", "N/A")
+                unique_identifier = file_entry.get("unique_identifier", "N/A")
                 file_name = file_entry.get("file_name", "N/A")
                 file_size = file_entry.get("file_size", "N/A")
 
