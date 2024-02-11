@@ -1,6 +1,7 @@
 
 import os
 from flask import Flask, request
+from database import log
 import telebot
 import time
 
@@ -41,14 +42,6 @@ def handle_document(message):
     file_name = document.file_name if document.file_name else "Not available"
 
     response_text = f"File ID: {file_id}\nFile Size: {file_size} bytes\nFile Type: {file_type}\nFile Name: {file_name}"
-    bot.reply_to(message, response_text)
-
-
-# Handler for when a file is sent
-@bot.message_handler(content_types=['photo', 'video', 'audio'])
-def handle_file(message):
-    file_type = message.content_type # Extracting the type of file
-    response_text = f"Received a {file_type} file!"
     bot.reply_to(message, response_text)
 
 
