@@ -1,3 +1,4 @@
+
 import os
 from flask import Flask, request
 import telebot
@@ -36,3 +37,16 @@ def handle_file(message):
     file_type = message.content_type.split('/')[0]  # Extracting the type of file
     response_text = f"Received a {file_type} file!"
     bot.reply_to(message, response_text)
+
+@bot.message_handler(content_types=['document'])
+def handle_document(message):
+    document = message.document
+
+    file_id = document.file_id
+    file_size = document.file_size
+    file_type = document.mime_type
+    file_name = document.file_name if document.file_name else "Not available"
+
+    response_text = f"File ID: {file_id}\nFile Size: {file_size} bytes\nFile Type: {file_type}\nFile Name: {file_name}"
+    bot.reply_to(message, response_text)
+
