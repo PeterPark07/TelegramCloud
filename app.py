@@ -66,7 +66,7 @@ def handle_document(message):
 @bot.message_handler(func=lambda message: message.text.startswith('/file'))
 def handle_file_request(message):
     try:
-        unique_identifier = int(message.text.split('/file')[1])
+        unique_identifier = message.text.split('/file')[1]
         file_entry = log.find_one({"unique_identifier": unique_identifier})
 
         if file_entry:
