@@ -32,7 +32,7 @@ def help_command(message):
     response_text += "/help - Show this help message.\n"
     bot.reply_to(message, response_text)
 
-#Handler for document messages
+# Handler for document messages
 @bot.message_handler(content_types=['document'])
 def handle_document(message):
     document = message.document
@@ -43,6 +43,9 @@ def handle_document(message):
     file_type = document.mime_type
     file_name = document.file_name if document.file_name else "Not available"
 
+    # Generate a unique identifier combining file ID and random number
+    unique_identifier = f"{file_id[-6:]}_{random.randint(1, 1000)}"
+
     # Log information in MongoDB
     log_entry = {
         "file_id": file_id,
@@ -50,21 +53,21 @@ def handle_document(message):
         "file_type": file_type,
         "file_name": file_name,
         "timestamp": time.time(),
-        "random_number": random.randint(1, 1000)  # Adjust range as needed
+        "unique_identifier": unique_identifier  # Using the combined identifier
     }
     log.insert_one(log_entry)
 
-    # Create response message with the assigned random number
+    # Create response message with the combined identifier
     response_text = f"File ID: {file_id}\nFile Size: {file_size} bytes\nFile Type: {file_type}\nFile Name: {file_name}\n"
-    response_text += f"Use /file{log_entry['random_number']} to retrieve this file later."
+    response_text += f"Use /file{unique_identifier} to retrieve this file later."
     bot.reply_to(message, response_text)
 
 
 @bot.message_handler(func=lambda message: message.text.startswith('/file'))
 def handle_file_request(message):
     try:
-        random_number = int(message.text.split('/file')[1])
-        file_entry = log.find_one({"random_number": random_number})
+        unique_identifier = int(message.text.split('/file')[1])
+        file_entry = log.find_one({"unique_identifier": unique_identifier})
 
         if file_entry:
             file_id = file_entry["file_id"]
@@ -72,22 +75,22 @@ def handle_file_request(message):
         else:
             bot.reply_to(message, "File not found.")
     except (ValueError, IndexError):
-        bot.reply_to(message, "Invalid command format. Use /file<n> to retrieve a file.")
+        bot.reply_to(message, "Invalid command format. Use /file<identifier> to retrieve a file.")
 
 
 @bot.message_handler(commands=['all'])
 def handle_all_files(message):
     try:
-        all_files = log.find({}, {"random_number": 1, "file_name": 1, "file_size": 1})
+        all_files = log.find({}, {"unique_identifier": 1, "file_name": 1, "file_size": 1})
 
         if all_files:
             response_text = "All files:\n\n"
             for file_entry in all_files:
-                random_number = file_entry.get("random_number", "N/A")
+                random_number = file_entry.get("unique_identifier", "N/A")
                 file_name = file_entry.get("file_name", "N/A")
                 file_size = file_entry.get("file_size", "N/A")
 
-                response_text += f"/file{random_number}: {file_name} - {file_size} bytes\n"
+                response_text += f"/file{unique_identifier}: {file_name} - {file_size} bytes\n"
 
             bot.reply_to(message, response_text)
         else:
