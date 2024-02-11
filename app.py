@@ -74,3 +74,24 @@ def handle_file_request(message):
     except (ValueError, IndexError):
         bot.reply_to(message, "Invalid command format. Use /file<n> to retrieve a file.")
 
+
+@bot.message_handler(commands=['all'])
+def handle_all_files(message):
+    try:
+        all_files = log.find({}, {"random_number": 1, "file_name": 1, "file_size": 1})
+
+        if all_files:
+            response_text = "All files:\n\n"
+            for file_entry in all_files:
+                random_number = file_entry.get("random_number", "N/A")
+                file_name = file_entry.get("file_name", "N/A")
+                file_size = file_entry.get("file_size", "N/A")
+
+                response_text += f"/file{random_number}: {file_name} - {file_size} bytes\n"
+
+            bot.reply_to(message, response_text)
+        else:
+            bot.reply_to(message, "No files found.")
+    except Exception as e:
+        bot.reply_to(message, f"An error occurred: {str(e)}")
+
