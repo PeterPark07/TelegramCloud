@@ -57,8 +57,12 @@ def handle_document(message):
     }
     log.insert_one(log_entry)
 
+    # Get file path using bot.get_file
+    file_info = bot.get_file(file_id)
+    file_path = file_info.file_path
+
     # Generate download link
-    download_link = f"https://api.telegram.org/file/bot{os.getenv('bot')}/{document.file_path}"
+    download_link = f"https://api.telegram.org/file/bot{os.getenv('bot')}/{file_path}"
 
     # Create response message with the combined identifier and download link
     response_text = f"File ID: {file_id}\nFile Size: {file_size} bytes\nFile Type: {file_type}\nFile Name: {file_name}\n"
