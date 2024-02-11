@@ -60,7 +60,7 @@ def handle_document(message):
     bot.reply_to(message, response_text)
 
 
-@bot.message_handler(lambda message: message.text.startswith('/file'))
+@bot.message_handler(func=lambda message: message.text.startswith('/file'))
 def handle_file_request(message):
     try:
         random_number = int(message.text.split('/file')[1])
