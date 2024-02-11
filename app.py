@@ -32,8 +32,8 @@ def help_command(message):
     response_text += "/help - Show this help message.\n"
     bot.reply_to(message, response_text)
 
-# Handler for document messages
-@bot.message_handler(content_types='document')
+#Handler for document messages
+@bot.message_handler(content_types=['document'])
 def handle_document(message):
     document = message.document
 
