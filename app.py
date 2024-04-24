@@ -91,7 +91,7 @@ def handle_file_request(message):
 def handle_all_files(message):
     try:
         all_files = log.find({}, {"unique_identifier": 1, "file_name": 1, "file_size": 1})
-        total_files_count = all_files.count()
+        total_files_count = len(list(all_files))
 
         if all_files:
             response_text = "All files ({total_files_count}):\n\n"
