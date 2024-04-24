@@ -94,7 +94,7 @@ def handle_all_files(message):
         total_files_count = len(list(all_files))
 
         if all_files:
-            response_text = "All files ({total_files_count}):\n\n"
+            response_text = f"All files ({total_files_count}):\n\n"
             bot.reply_to(message,response_text)
             for file_entry in all_files:
                 unique_identifier = file_entry.get("unique_identifier", "N/A")
