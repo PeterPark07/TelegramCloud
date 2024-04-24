@@ -105,7 +105,7 @@ def handle_all_files(message):
                 file_size = file_entry.get("file_size", "N/A")
 
                 response_text += f"/file{unique_identifier}: {file_name} - {file_size} bytes\n"
-                if i%30 == 0:
+                if i%10 == 0:
                     bot.send_message(message,response_text)
                     response_text = ""
 
