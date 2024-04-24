@@ -91,17 +91,23 @@ def handle_file_request(message):
 def handle_all_files(message):
     try:
         all_files = log.find({}, {"unique_identifier": 1, "file_name": 1, "file_size": 1})
-        total_files_count = len(list(all_files))
+        file_list = all_files
+        total_files_count = len(list(file_list))
 
         if all_files:
-            response_text = f"All files ({total_files_count}):\n\n"
-            bot.send_message(message,response_text)
+            response_text = ""
+            bot.send_message(message,f"All files ({total_files_count}):\n\n")
+            i=0
             for file_entry in all_files:
+                i+=1
                 unique_identifier = file_entry.get("unique_identifier", "N/A")
                 file_name = file_entry.get("file_name", "N/A")
                 file_size = file_entry.get("file_size", "N/A")
 
                 response_text += f"/file{unique_identifier}: {file_name} - {file_size} bytes\n"
+                if i%30 == 0:
+                    bot.send_message(message,response_text)
+                    response_text = ""
 
             bot.reply_to(message, response_text)
         else:
