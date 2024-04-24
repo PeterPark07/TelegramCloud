@@ -97,7 +97,7 @@ def handle_all_files(message):
         if all_files:
             response_text = ""
             bot.send_message(message.chat.id ,f"All files ({total_files_count}):\n\n")
-            i=0
+            i=1
             for file_entry in all_files:
                 i+=1
                 unique_identifier = file_entry.get("unique_identifier", "N/A")
