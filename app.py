@@ -96,7 +96,7 @@ def handle_all_files(message):
 
         if all_files:
             response_text = ""
-            bot.send_message(message,f"All files ({total_files_count}):\n\n")
+            bot.send_message(message.chat.id ,f"All files ({total_files_count}):\n\n")
             i=0
             for file_entry in all_files:
                 i+=1
@@ -106,7 +106,7 @@ def handle_all_files(message):
 
                 response_text += f"/file{unique_identifier}: {file_name} - {file_size} bytes\n"
                 if i%10 == 0:
-                    bot.send_message(message,response_text)
+                    bot.send_message(message.chat.id ,response_text)
                     response_text = ""
 
             bot.reply_to(message, response_text)
