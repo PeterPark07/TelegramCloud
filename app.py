@@ -93,10 +93,10 @@ def handle_all_files(message):
         all_files = log.find({}, {"unique_identifier": 1, "file_name": 1, "file_size": 1})
         file_list = all_files
         total_files_count = len(list(file_list))
+        bot.send_message(message.chat.id ,f"All files ({total_files_count}):\n\n")
 
         if all_files:
-            response_text = ""
-            bot.send_message(message.chat.id ,f"All files ({total_files_count}):\n\n")
+            response_text = "."
             i=1
             for file_entry in all_files:
                 i+=1
@@ -105,6 +105,7 @@ def handle_all_files(message):
                 file_size = file_entry.get("file_size", "N/A")
 
                 response_text += f"/file{unique_identifier}: {file_name} - {file_size} bytes\n"
+                print(response_text)
                 if i%10 == 0:
                     bot.send_message(message.chat.id ,response_text)
                     response_text = ""
