@@ -95,7 +95,7 @@ def handle_all_files(message):
         total_files_count = len(file_list)
         bot.send_message(message.chat.id ,f"All files ({total_files_count}):\n\n")
 
-        print(file_list[1:7])
+        print(file_list)
 
         if all_files:
             i = 0
