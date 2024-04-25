@@ -107,7 +107,7 @@ def handle_all_files(message):
                 i += 1
 
                 if i % 10 == 0 or i == total_files_count:
-                    bot.send_message(message.chat.id, response_text)
+                    bot.reply_to(message, response_text)
                     response_text = ""
 
             bot.reply_to(message, "File listing complete.")
