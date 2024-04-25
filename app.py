@@ -140,6 +140,15 @@ def handle_all_files(message):
         bot.reply_to(message, f"An error occurred: {str(e)}")
 
 
+@bot.message_handler(commands=['reset_7363'])
+def delete_all_files(message):
+    try:
+        delete_result = log.delete_many({"unique_identifier": {"$exists": True}, "file_name": {"$exists": True}, "file_size": {"$exists": True}})
+        deleted_count = delete_result.deleted_count
+        bot.reply_to(message, f"{deleted_count} file log(s) deleted successfully.")
+    except Exception as e:
+        bot.reply_to(message, f"An error occurred: {str(e)}")
+
 @bot.message_handler(commands=['count'])
 def count_all_files(message):
     try:
