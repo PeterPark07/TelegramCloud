@@ -43,8 +43,9 @@ def handle_document(message):
     file_type = document.mime_type
     file_name = document.file_name if document.file_name else "Not available"
 
-    if (file_size//1024)//1024 > 4:
+    if (file_size//1024)//1024 > 20:
         bot.reply_to(message, "file too big")
+        return
 
     # Generate a unique identifier combining file ID and random number
     unique_identifier = f"{file_id[-6:]}_{random.randint(1, 1000)}"
