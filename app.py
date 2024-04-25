@@ -108,6 +108,8 @@ def handle_all_files(message):
                 response_text += f"/file{unique_identifier}: {file_name} - {file_size} bytes\n"
                 i += 1
 
+                print (response_text)
+
                 if i % 10 == 0 or i == total_files_count:
                     bot.reply_to(message, response_text)
                     response_text = ""
