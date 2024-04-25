@@ -86,6 +86,19 @@ def handle_file_request(message):
     except (ValueError, IndexError):
         bot.reply_to(message, "Invalid command format. Use /file<identifier> to retrieve a file.")
 
+# Handler for the '/delete' command
+@bot.message_handler(commands=['delete'])
+def delete_file(message):
+    try:
+        unique_identifier = message.text.split('/delete')[1].strip()
+        delete_result = log.delete_one({"unique_identifier": unique_identifier})
+        deleted_count = delete_result.deleted_count
+        if deleted_count > 0:
+            bot.reply_to(message, f"{deleted_count} file log(s) deleted successfully.")
+        else:
+            bot.reply_to(message, "File log not found.")
+    except IndexError:
+        bot.reply_to(message, "Invalid command format. Use /delete <identifier> to delete a file log.")
 
 @bot.message_handler(commands=['all'])
 def handle_all_files(message):
@@ -105,7 +118,11 @@ def handle_all_files(message):
                 file_name = file_entry.get("file_name", "N/A")
                 file_size = file_entry.get("file_size", "N/A")
 
-                response_text += f"/file{unique_identifier}: {file_name} - {file_size} bytes\n"
+                # Create clickable delete link
+                delete_link = f"/delete{unique_identifier}"
+
+
+                response_text += f"/file{unique_identifier}: {file_name} - {file_size} bytes\nDelete: {delete_link}\n\n"
                 i += 1
 
                 print (response_text)
