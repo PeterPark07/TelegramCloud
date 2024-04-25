@@ -96,24 +96,22 @@ def handle_all_files(message):
         bot.send_message(message.chat.id ,f"All files ({total_files_count}):\n\n")
 
         if all_files:
-            response_text = "."
-            i=1
+            i = 0
+            response_text = ""
             for file_entry in all_files:
-                print(file_entry)
-                i+=1
                 unique_identifier = file_entry.get("unique_identifier", "N/A")
                 file_name = file_entry.get("file_name", "N/A")
                 file_size = file_entry.get("file_size", "N/A")
 
                 response_text += f"/file{unique_identifier}: {file_name} - {file_size} bytes\n"
-                print(response_text)
-                if i%10 == 0:
-                    bot.send_message(message.chat.id ,response_text)
+                i += 1
+
+                if i % 10 == 0 or i == total_files_count:
+                    bot.send_message(message.chat.id, response_text)
                     response_text = ""
 
-            bot.reply_to(message, response_text)
+            bot.reply_to(message, "File listing complete.")
         else:
             bot.reply_to(message, "No files found.")
     except Exception as e:
         bot.reply_to(message, f"An error occurred: {str(e)}")
-
