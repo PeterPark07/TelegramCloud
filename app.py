@@ -148,4 +148,4 @@ def count_all_files(message):
         total_files_count = len(file_list)
         bot.reply_to(message ,f"Total files - ({total_files_count})")
     except:
-        bot.reply_to(message ,f"Can't retrieve count")
+        bot.reply_to(message ,"Can't retrieve count")
