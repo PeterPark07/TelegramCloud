@@ -87,7 +87,7 @@ def handle_file_request(message):
         bot.reply_to(message, "Invalid command format. Use /file<identifier> to retrieve a file.")
 
 # Handler for the '/delete' command
-@bot.message_handler(commands=['delete'])
+@bot.message_handler(func=lambda message: message.text.startswith('/delete'))
 def delete_file(message):
     try:
         unique_identifier = message.text.split('/delete')[1].strip()
