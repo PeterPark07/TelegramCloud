@@ -99,6 +99,7 @@ def handle_all_files(message):
             response_text = "."
             i=1
             for file_entry in all_files:
+                print(file_entry)
                 i+=1
                 unique_identifier = file_entry.get("unique_identifier", "N/A")
                 file_name = file_entry.get("file_name", "N/A")
