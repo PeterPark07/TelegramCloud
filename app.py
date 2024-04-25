@@ -146,4 +146,6 @@ def count_all_files(message):
         all_files = log.find({}, {"unique_identifier": 1, "file_name": 1, "file_size": 1})
         file_list = list(all_files)
         total_files_count = len(file_list)
-        bot.send_message(message.chat.id ,f"All files ({total_files_count}):\n\n")
+        bot.reply_to(message ,f"Total files - ({total_files_count})")
+    except:
+        bot.reply_to(message ,f"Can't retrieve count")
