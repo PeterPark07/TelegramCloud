@@ -108,8 +108,6 @@ def handle_all_files(message):
         total_files_count = len(file_list)
         bot.send_message(message.chat.id ,f"All files ({total_files_count}):\n\n")
 
-        print(file_list[1])
-
         if file_list:
             i = 0
             response_text = "-\n"
@@ -125,8 +123,6 @@ def handle_all_files(message):
 
                 response_text += f"/file{unique_identifier}: {file_name} - {file_size} kb\nDelete: {delete_link}\n\n"
                 i += 1
-
-                print (response_text)
 
                 if i % 10 == 0 or i == total_files_count:
                     bot.reply_to(message, response_text)
