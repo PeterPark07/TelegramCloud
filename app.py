@@ -116,13 +116,14 @@ def handle_all_files(message):
             for file_entry in file_list:
                 unique_identifier = file_entry.get("unique_identifier", "N/A")
                 file_name = file_entry.get("file_name", "N/A")
-                file_size = file_entry.get("file_size", "N/A")
+                file_size_bytes = file_entry.get("file_size", "N/A")
+                file_size = (file_size_bytes//1024) + 1
 
                 # Create clickable delete link
                 delete_link = f"/delete{unique_identifier}"
 
 
-                response_text += f"/file{unique_identifier}: {file_name} - {file_size} bytes\nDelete: {delete_link}\n\n"
+                response_text += f"/file{unique_identifier}: {file_name} - {file_size} kb\nDelete: {delete_link}\n\n"
                 i += 1
 
                 print (response_text)
