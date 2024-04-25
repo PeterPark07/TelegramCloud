@@ -97,7 +97,7 @@ def handle_all_files(message):
 
         if all_files:
             i = 0
-            response_text = ""
+            response_text = "-\n"
             for file_entry in all_files:
                 unique_identifier = file_entry.get("unique_identifier", "N/A")
                 file_name = file_entry.get("file_name", "N/A")
