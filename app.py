@@ -113,7 +113,7 @@ def handle_all_files(message):
         if file_list:
             i = 0
             response_text = "-\n"
-            for file_entry in file_list[1:67] :
+            for file_entry in file_list :
                 unique_identifier = file_entry.get("unique_identifier", "N/A")
                 file_name = file_entry.get("file_name", "N/A")
                 file_size_bytes = file_entry.get("file_size", "N/A")
