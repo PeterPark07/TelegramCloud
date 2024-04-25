@@ -95,12 +95,12 @@ def handle_all_files(message):
         total_files_count = len(file_list)
         bot.send_message(message.chat.id ,f"All files ({total_files_count}):\n\n")
 
-        print(file_list)
+        print(file_list[1])
 
-        if all_files:
+        if file_list:
             i = 0
             response_text = "-\n"
-            for file_entry in all_files:
+            for file_entry in file_list:
                 unique_identifier = file_entry.get("unique_identifier", "N/A")
                 file_name = file_entry.get("file_name", "N/A")
                 file_size = file_entry.get("file_size", "N/A")
