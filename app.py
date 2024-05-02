@@ -60,7 +60,7 @@ def upload_image():
             os.makedirs(app.config['UPLOAD_FOLDER'])
 
         # Save the file to the uploads directory
-        filename = secure_filename(file.filename)
+        filename = (file.filename)
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(file_path)
 
