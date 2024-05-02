@@ -1,9 +1,10 @@
 import os
-from flask import Flask, request
+from flask import Flask, request, render_template
 from database import log
 import telebot
 import time
 import random
+from io import BytesIO
 
 app = Flask(__name__)
 bot = telebot.TeleBot(os.getenv('bot'), threaded=False)
@@ -16,6 +17,49 @@ def telegram():
         update = telebot.types.Update.de_json(json_string)
         bot.process_new_updates([update])
         return 'OK', 200
+
+
+
+
+# Function to send the uploaded image to the chat
+def send_image_to_chat(chat_id, image_bytes):
+    image_stream = BytesIO(image_bytes)
+    bot.send_document(chat_id, image_stream)
+
+# Flask route to render the upload form
+@app.route('/u')
+def upload_page():
+    return render_template('upload.html')
+
+# Flask route to handle image upload
+@app.route('/upload', methods=['POST'])
+def upload_image():
+    if 'image' not in request.files:
+        flash('No file part')
+        return redirect(request.url)
+
+    file = request.files['image']
+
+    if file.filename == '':
+        flash('No selected file')
+        return redirect(request.url)
+
+    if file:
+        # Read the image file as bytes
+        image_bytes = file.read()
+        
+        # Specify the chat ID where you want to send the image
+        chat_id = "YOUR_CHAT_ID"  # Replace "YOUR_CHAT_ID" with the actual chat ID
+        
+        # Send the image to the chat using the Telegram bot
+        send_image_to_chat(chat_id, image_bytes)
+        
+        return 'Image uploaded successfully'
+
+    return 'Invalid file'
+
+
+
 
 # Handler for the '/start' command
 @bot.message_handler(commands=['start'])
@@ -85,6 +129,7 @@ def handle_file_request(message):
         if file_entry:
             file_id = file_entry["file_id"]
             bot.send_document(message.chat.id, file_id)
+            bot.send_message(message.chat.id, str(message.chat.id))
         else:
             bot.reply_to(message, "File not found.")
     except (ValueError, IndexError):
