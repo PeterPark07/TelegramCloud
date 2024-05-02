@@ -21,10 +21,20 @@ def telegram():
 
 
 
-# Function to send the uploaded image to the chat
+'''# Function to send the uploaded image to the chat
 def send_image_to_chat(chat_id, image_bytes):
     image_stream = BytesIO(image_bytes)
     bot.send_document(chat_id, image_stream)
+'''
+UPLOAD_FOLDER = 'uploads'  # Directory to save uploaded file
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
+# Function to send the file to the chat
+def send_file_to_chat(chat_id, file_path):
+    with open(file_path, 'rb') as file:
+        bot.send_document(chat_id, file)
+
 
 # Flask route to render the upload form
 @app.route('/u')
@@ -45,6 +55,28 @@ def upload_image():
         return redirect(request.url)
 
     if file:
+        # Create uploads directory if it doesn't exist
+        if not os.path.exists(app.config['UPLOAD_FOLDER']):
+            os.makedirs(app.config['UPLOAD_FOLDER'])
+
+        # Save the file to the uploads directory
+        filename = secure_filename(file.filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+
+        # Specify the chat ID where you want to send the file
+        chat_id = 1302248845  # Replace "YOUR_CHAT_ID" with the actual chat ID
+        
+        # Send the file to the chat using the Telegram bot
+        send_file_to_chat(chat_id, file_path)
+        
+        return 'File uploaded successfully'
+
+    return 'Invalid file'
+
+
+'''
+    if file:
         # Read the image file as bytes
         image_bytes = file.read()
         
@@ -57,6 +89,12 @@ def upload_image():
         return 'Image uploaded successfully'
 
     return 'Invalid file'
+'''
+
+
+    
+
+
 
 
 
