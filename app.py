@@ -129,7 +129,6 @@ def handle_file_request(message):
         if file_entry:
             file_id = file_entry["file_id"]
             bot.send_document(message.chat.id, file_id)
-            bot.send_message(message.chat.id, str(message.chat.id))
         else:
             bot.reply_to(message, "File not found.")
     except (ValueError, IndexError):
