@@ -89,7 +89,7 @@ def upload_files():
             os.makedirs(app.config['UPLOAD_FOLDER'])
 
         # Save the file to the uploads directory
-        filename = secure_filename(file.filename)
+        filename = file.filename
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(file_path)
 
@@ -130,7 +130,9 @@ def upload_files():
         # Delete the file after sending
         os.remove(file_path)
         
-    return 'Files uploaded successfully'
+        return 'Files uploaded successfully'
+
+    return 'Invalid file'
 
   
 
