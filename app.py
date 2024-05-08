@@ -33,8 +33,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # Function to send the file to the chat
 def send_file_to_chat(chat_id, file_path):
     with open(file_path, 'rb') as file:
-        bot.send_document(chat_id, file)
-
+        sent = bot.send_document(chat_id, file)
+        print(sent)
 
 # Flask route to render the upload form
 @app.route('/u')
