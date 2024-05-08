@@ -90,6 +90,29 @@ def delete_file(unique_identifier):
         return f"Error deleting file: {str(e)}"
 
 
+@app.route('/download/<unique_identifier>', methods=['GET'])
+def download_file(unique_identifier):
+    try:
+        file_entry = log.find_one({"unique_identifier": unique_identifier})
+        if file_entry:
+            # Retrieve the file ID from the file entry
+            file_id = file_entry.get("file_id")
+            if file_id:
+                # Get the file information using bot.get_file
+                file_info = bot.get_file(file_id)
+                # Generate download link
+                download_link = f"https://api.telegram.org/file/bot{os.getenv('bot')}/{file_info.file_path}"
+                # Redirect the user to the download link
+                return redirect(download_link)
+            else:
+                return "File ID not found."
+        else:
+            return "File not found."
+    except Exception as e:
+        return f"Error downloading file: {str(e)}"
+
+
+
 # Flask route to handle file upload
 @app.route('/upload', methods=['POST'])
 def upload_files():
