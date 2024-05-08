@@ -165,6 +165,8 @@ def upload_files():
         
             # Get file path using bot.get_file
             file_info = bot.get_file(file_id)
+
+            print(file_info)
         
             # Generate download link
             download_link = f"https://api.telegram.org/file/bot{os.getenv('bot')}/{file_info.file_path}"
