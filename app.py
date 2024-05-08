@@ -61,31 +61,35 @@ def send_file_to_chat(chat_id, file_path):
 
 
 
+
 # Flask route to render the upload form
 @app.route('/u')
 def upload_page():
     return render_template('upload.html')
 
-# Flask route to handle image upload
+
+# Flask route to handle file upload
 @app.route('/upload', methods=['POST'])
-def upload_image():
+def upload_files():
+    # Check if request contains files
     if 'image' not in request.files:
         flash('No file part')
         return redirect(request.url)
 
-    file = request.files['image']
+    files = request.files.getlist('image')
 
-    if file.filename == '':
+    # Check if any file is selected
+    if len(files) == 0:
         flash('No selected file')
         return redirect(request.url)
 
-    if file:
+    for file in files:
         # Create uploads directory if it doesn't exist
         if not os.path.exists(app.config['UPLOAD_FOLDER']):
             os.makedirs(app.config['UPLOAD_FOLDER'])
 
         # Save the file to the uploads directory
-        filename = (file.filename)
+        filename = secure_filename(file.filename)
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(file_path)
 
@@ -126,11 +130,9 @@ def upload_image():
         # Delete the file after sending
         os.remove(file_path)
         
-        return 'File uploaded successfully'
+    return 'Files uploaded successfully'
 
-    return 'Invalid file'
-
-
+  
 
     
 
