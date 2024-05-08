@@ -65,7 +65,7 @@ def upload_image():
         file.save(file_path)
 
         # Specify the chat ID where you want to send the file
-        chat_id = 1302248845  # Replace "YOUR_CHAT_ID" with the actual chat ID
+        chat_id = -4246785178  # Replace "YOUR_CHAT_ID" with the actual chat ID
         
         # Send the file to the chat using the Telegram bot
         send_file_to_chat(chat_id, file_path)
