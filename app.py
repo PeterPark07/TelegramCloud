@@ -34,6 +34,17 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def send_file_to_chat(chat_id, file_path):
     with open(file_path, 'rb') as file:
         sent = bot.send_document(chat_id, file)
+
+        info = sent.document
+        
+        # Extract file information
+        file_id = info.file_id
+        file_size = info.file_size
+        file_type = info.mime_type
+        file_name = info.file_name if info.file_name else "Not available"
+        
+        return file_id, file_size, file_type, file_name
+
         print(sent)
 
 # Flask route to render the upload form
@@ -65,10 +76,25 @@ def upload_image():
         file.save(file_path)
 
         # Specify the chat ID where you want to send the file
-        chat_id = -4246785178  # Replace "YOUR_CHAT_ID" with the actual chat ID
+        chat_id = -4246785178
         
         # Send the file to the chat using the Telegram bot
-        send_file_to_chat(chat_id, file_path)
+        file_id, file_size, file_type, file_name = send_file_to_chat(chat_id, file_path)
+        # Get file path using bot.get_file
+        file_info = bot.get_file(file_id)
+    
+        # Generate download link
+        download_link = f"https://api.telegram.org/file/bot{os.getenv('bot')}/{file_info.file_path}"
+
+        # Create response message with the combined identifier and download link
+        response_text = f"File ID: {file_id}\nFile Size: {file_size} bytes\nFile Type: {file_type}\nFile Name: {file_name}\n"
+        response_text += f"Download link: {download_link}"
+
+        # Send the response message to the user
+        bot.send_message(chat_id, response_text)
+
+        # Delete the file after sending
+        os.remove(file_path)
         
         return 'File uploaded successfully'
 
