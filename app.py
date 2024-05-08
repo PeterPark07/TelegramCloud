@@ -123,7 +123,7 @@ def upload_files():
             download_link = f"https://api.telegram.org/file/bot{os.getenv('bot')}/{file_info.file_path}"
     
             # Create response message with the combined identifier and download link
-            response_text = f"File ID: {file_id}\nFile Size: {file_size} bytes\nFile Type: {file_type}\nFile Name: {file_name}\n"
+            response_text = f"File Name: {file_name}\nFile Size: {file_size} bytes\nFile Type: {file_type}\n"
             response_text += f"Use /file{unique_identifier} to retrieve this file later.\n"
             response_text += f"Download link: {download_link}"
     
@@ -187,7 +187,7 @@ def handle_document(message):
     download_link = f"https://api.telegram.org/file/bot{os.getenv('bot')}/{file_path}"
 
     # Create response message with the combined identifier and download link
-    response_text = f"File ID: {file_id}\nFile Size: {file_size} bytes\nFile Type: {file_type}\nFile Name: {file_name}\n"
+    response_text = f"File Name: {file_name}\nFile Size: {file_size} bytes\nFile Type: {file_type}\n"
     response_text += f"Use /file{unique_identifier} to retrieve this file later.\n"
     response_text += f"Download link: {download_link}"
     
