@@ -83,56 +83,61 @@ def upload_files():
         flash('No selected file')
         return redirect(request.url)
 
+    s = 0
+    errors = ''
     for file in files:
-        # Create uploads directory if it doesn't exist
-        if not os.path.exists(app.config['UPLOAD_FOLDER']):
-            os.makedirs(app.config['UPLOAD_FOLDER'])
-
-        # Save the file to the uploads directory
-        filename = file.filename
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(file_path)
-
-        # Specify the chat ID where you want to send the file
-        chat_id = -4246785178
+        try:
+            # Create uploads directory if it doesn't exist
+            if not os.path.exists(app.config['UPLOAD_FOLDER']):
+                os.makedirs(app.config['UPLOAD_FOLDER'])
+    
+            # Save the file to the uploads directory
+            filename = file.filename
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
+    
+            # Specify the chat ID where you want to send the file
+            chat_id = -4246785178
+            
+            # Send the file to the chat using the Telegram bot
+            file_id, file_size, file_type, file_name = send_file_to_chat(chat_id, file_path)
         
-        # Send the file to the chat using the Telegram bot
-        file_id, file_size, file_type, file_name = send_file_to_chat(chat_id, file_path)
-    
-        # Generate a unique identifier combining file ID and random number
-        unique_identifier = f"{file_id[-6:]}_{random.randint(1, 1000)}"
-    
-        # Log information in MongoDB
-        log_entry = {
-            "file_id": file_id,
-            "file_size": file_size,
-            "file_type": file_type,
-            "file_name": file_name,
-            "timestamp": time.time(),
-            "unique_identifier": unique_identifier  # Using the combined identifier
-        }
-        log.insert_one(log_entry)
-    
-        # Get file path using bot.get_file
-        file_info = bot.get_file(file_id)
-    
-        # Generate download link
-        download_link = f"https://api.telegram.org/file/bot{os.getenv('bot')}/{file_info.file_path}"
-
-        # Create response message with the combined identifier and download link
-        response_text = f"File ID: {file_id}\nFile Size: {file_size} bytes\nFile Type: {file_type}\nFile Name: {file_name}\n"
-        response_text += f"Use /file{unique_identifier} to retrieve this file later.\n"
-        response_text += f"Download link: {download_link}"
-
-        # Send the response message to the user
-        bot.send_message(chat_id, response_text)
-
-        # Delete the file after sending
-        os.remove(file_path)
+            # Generate a unique identifier combining file ID and random number
+            unique_identifier = f"{file_id[-6:]}_{random.randint(1, 1000)}"
         
-        return 'Files uploaded successfully'
-
-    return 'Invalid file'
+            # Log information in MongoDB
+            log_entry = {
+                "file_id": file_id,
+                "file_size": file_size,
+                "file_type": file_type,
+                "file_name": file_name,
+                "timestamp": time.time(),
+                "unique_identifier": unique_identifier  # Using the combined identifier
+            }
+            log.insert_one(log_entry)
+        
+            # Get file path using bot.get_file
+            file_info = bot.get_file(file_id)
+        
+            # Generate download link
+            download_link = f"https://api.telegram.org/file/bot{os.getenv('bot')}/{file_info.file_path}"
+    
+            # Create response message with the combined identifier and download link
+            response_text = f"File ID: {file_id}\nFile Size: {file_size} bytes\nFile Type: {file_type}\nFile Name: {file_name}\n"
+            response_text += f"Use /file{unique_identifier} to retrieve this file later.\n"
+            response_text += f"Download link: {download_link}"
+    
+            # Send the response message to the user
+            bot.send_message(chat_id, response_text)
+            
+            s+=1
+    
+            # Delete the file after sending
+            os.remove(file_path)
+            
+        except Exception as e:
+            errors += f"An error occurred: {str(e)}"
+    return f'{s} files uploaded successfully \n\n{errors}'
 
   
 
