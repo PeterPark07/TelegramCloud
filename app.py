@@ -83,7 +83,7 @@ def delete_file(unique_identifier):
         # Check if the deletion was successful
         if delete_result.deleted_count > 0:
             # Update file manager page after successful deletion
-            return "File deleted successfully"
+            return redirect('/file_manager')
         else:
             return "File not found"
     except Exception as e:
