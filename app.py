@@ -41,6 +41,12 @@ def help_command(message):
 UPLOAD_FOLDER = 'uploads'  # Directory to save uploaded file
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+def extract_file_info(document):
+    file_id = document.file_id
+    file_size = document.file_size
+    file_type = document.mime_type
+    file_name = document.file_name if document.file_name else "Not available"
+    return file_id, file_size, file_type, file_name
 
 # Function to send the file to the chat
 def send_file_to_chat(chat_id, file_path):
@@ -48,16 +54,10 @@ def send_file_to_chat(chat_id, file_path):
         sent = bot.send_document(chat_id, file)
 
         info = sent.document
-        
-        # Extract file information
-        file_id = info.file_id
-        file_size = info.file_size
-        file_type = info.mime_type
-        file_name = info.file_name if info.file_name else "Not available"
 
         print(sent)
         
-        return file_id, file_size, file_type, file_name
+        return extract_file_info(info)
 
 
 
