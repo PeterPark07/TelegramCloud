@@ -67,6 +67,11 @@ def send_file_to_chat(chat_id, file_path):
 def upload_page():
     return render_template('upload.html')
 
+# Flask route to render the file manager page
+@app.route('/files')
+def file_manager():
+    files = list(log.find({}, {"file_name": 1, "file_size": 1, "unique_identifier": 1}))
+    return render_template('file_manager.html', files=files)
 
 # Flask route to handle file upload
 @app.route('/upload', methods=['POST'])
