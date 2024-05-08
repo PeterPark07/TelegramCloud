@@ -21,11 +21,6 @@ def telegram():
 
 
 
-'''# Function to send the uploaded image to the chat
-def send_image_to_chat(chat_id, image_bytes):
-    image_stream = BytesIO(image_bytes)
-    bot.send_document(chat_id, image_stream)
-'''
 UPLOAD_FOLDER = 'uploads'  # Directory to save uploaded file
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -100,22 +95,6 @@ def upload_image():
 
     return 'Invalid file'
 
-
-'''
-    if file:
-        # Read the image file as bytes
-        image_bytes = file.read()
-        
-        # Specify the chat ID where you want to send the image
-        chat_id = 1302248845  # Replace "YOUR_CHAT_ID" with the actual chat ID
-        
-        # Send the image to the chat using the Telegram bot
-        send_image_to_chat(chat_id, image_bytes)
-        
-        return 'Image uploaded successfully'
-
-    return 'Invalid file'
-'''
 
 
     
