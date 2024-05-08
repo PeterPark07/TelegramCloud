@@ -37,10 +37,12 @@ def send_file_to_chat(chat_id, file_path):
         file_size = info.file_size
         file_type = info.mime_type
         file_name = info.file_name if info.file_name else "Not available"
+
+        print(sent['json'])
         
         return file_id, file_size, file_type, file_name
 
-        print(sent)
+
 
 # Flask route to render the upload form
 @app.route('/u')
