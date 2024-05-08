@@ -138,7 +138,9 @@ def upload_files():
     
             # Save the file to the uploads directory
             filename = file.filename
+            print(filename)
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            print(file_path)
             file.save(file_path)
     
             # Specify the chat ID where you want to send the file
