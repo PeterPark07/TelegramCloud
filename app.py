@@ -4,7 +4,6 @@ from database import log
 import telebot
 import time
 import random
-from io import BytesIO
 
 app = Flask(__name__)
 bot = telebot.TeleBot(os.getenv('bot'), threaded=False)
