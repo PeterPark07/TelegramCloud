@@ -13,7 +13,7 @@
         <ul>
             {% for file in files %}
                 <li>
-                    {{ file.file_name }} - {{ file.file_size }} bytes
+                    {{ file.file_name }} - {{ (file.file_size / 1024) | round + 1 }} kb
                     <form action="/delete/{{ file.unique_identifier }}" method="post">
                         <input type="submit" value="Delete">
                     </form>
