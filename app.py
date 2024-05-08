@@ -73,6 +73,23 @@ def file_manager():
     files = list(log.find({}, {"file_name": 1, "file_size": 1, "unique_identifier": 1}))
     return render_template('file_manager.html', files=files)
 
+# Flask route to handle file deletion
+@app.route('/delete/<unique_identifier>', methods=['POST'])
+def delete_file(unique_identifier):
+    try:
+        # Delete the file from the log database
+        delete_result = log.delete_one({"unique_identifier": unique_identifier})
+        
+        # Check if the deletion was successful
+        if delete_result.deleted_count > 0:
+            # Update file manager page after successful deletion
+            return "File deleted successfully"
+        else:
+            return "File not found"
+    except Exception as e:
+        return f"Error deleting file: {str(e)}"
+
+
 # Flask route to handle file upload
 @app.route('/upload', methods=['POST'])
 def upload_files():
