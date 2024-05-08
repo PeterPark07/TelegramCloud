@@ -17,6 +17,9 @@
                     <form action="/delete/{{ file.unique_identifier }}" method="post">
                         <input type="submit" value="Delete">
                     </form>
+                    <form action="/download/{{ file.unique_identifier }}" method="get" target="_blank">
+                        <input type="submit" value="Download">
+                    </form>
                 </li>
             {% endfor %}
         </ul>
