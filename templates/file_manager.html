@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File Manager</title>
+    <style>
+        li {
+            display: inline-block;
+            margin-right: 10px; /* Adjust as needed */
+        }
+    </style>
 </head>
 <body>
     <h1>File Manager</h1>
@@ -14,7 +20,7 @@
             {% for file in files %}
                 <li>
                     {{ file.file_name }} - {{ file.file_size }} bytes
-                    <form action="/delete/{{ file.unique_identifier }}" method="post">
+                    <form action="/delete/{{ file.unique_identifier }}" method="post" style="display: inline;">
                         <input type="submit" value="Delete">
                     </form>
                 </li>
