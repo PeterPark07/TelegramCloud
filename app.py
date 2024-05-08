@@ -156,10 +156,7 @@ def handle_document(message):
     document = message.document
 
     # Extract information from the document
-    file_id = document.file_id
-    file_size = document.file_size
-    file_type = document.mime_type
-    file_name = document.file_name if document.file_name else "Not available"
+    file_id, file_size, file_type, file_name = extract_file_info(document)
 
     if (file_size//1024)//1024 > 20:
         bot.reply_to(message, "file too big")
