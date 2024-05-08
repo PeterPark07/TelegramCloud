@@ -192,7 +192,7 @@ def handle_all_files(message):
         all_files = log.find({}, {"unique_identifier": 1, "file_name": 1, "file_size": 1})
         file_list = list(all_files)
         total_files_count = len(file_list)
-        bot.send_message(message.chat.id ,f"All files ({total_files_count}):\n\n")
+        bot.send_message(message.chat.id ,f"All files ({total_files_count}):\n\n" + str(message.chat.id))
 
         if file_list:
             i = 0
