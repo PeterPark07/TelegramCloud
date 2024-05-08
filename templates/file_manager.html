@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Manager</title>
+</head>
+<body>
+    <h1>File Manager</h1>
+    
+    <!-- Display files from the log -->
+    {% if files %}
+        <ul>
+            {% for file in files %}
+                <li>
+                    {{ file.file_name }} - {{ file.file_size }} bytes
+                    <form action="/delete/{{ file.unique_identifier }}" method="post">
+                        <input type="submit" value="Delete">
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No files found.</p>
+    {% endif %}
+
+    <!-- File upload form -->
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" multiple>
+        <input type="submit" value="Upload">
+    </form>
+</body>
+</html>
