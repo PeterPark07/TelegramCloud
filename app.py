@@ -137,7 +137,7 @@ def upload_files():
             
         except Exception as e:
             errors += f"An error occurred: {str(e)}"
-    return f'{s} files uploaded successfully \n\n{errors}'
+    return f'{s} files uploaded successfully.' + '\n\n' + errors
 
   
 
