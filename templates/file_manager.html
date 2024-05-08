@@ -14,10 +14,10 @@
             {% for file in files %}
                 <li>
                     {{ file.file_name }} - {{ (file.file_size / 1024) | round + 1 }} kb
-                    <form action="/delete/{{ file.unique_identifier }}" method="post">
+                    <form action="/delete/{{ file.unique_identifier }}" method="post" style="display: inline;">
                         <input type="submit" value="Delete">
                     </form>
-                    <form action="/download/{{ file.unique_identifier }}" method="get" target="_blank">
+                    <form action="/download/{{ file.unique_identifier }}" method="get" target="_blank" style="display: inline;">
                         <input type="submit" value="Download">
                     </form>
                 </li>
